@@ -1,0 +1,20 @@
+[Unit]
+Description=Docker Stunnel container
+Requires=docker.service
+After=docker.service network-online.target
+Wants=network-online.target
+
+[Service]
+TimeoutStartSec=infinity
+ExecStartPre=-ip route add $(dig +short stunnel.server.com) via $(ip route show default | awk '/default via/ {print $3}')
+ExecStartPre=/bin/sh -c "/usr/bin/docker run -d -it --init --rm \
+                        --net=host \
+                        --name Stunnel-Client --hostname Stunnel-Client \
+                        ghcr.io/fernandoenzo/stunnel:latest"
+ExecStart=/usr/bin/docker logs -f Stunnel-Client
+ExecStop=-/usr/bin/docker stop Stunnel-Client
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target
+

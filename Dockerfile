@@ -1,5 +1,6 @@
 FROM ghcr.io/fernandoenzo/debian:12
 
-COPY scripts/basics /tmp
-RUN bash /tmp/basics
+COPY contents/ /tmp/contents
+
+RUN bash /tmp/contents/scripts/basics
 

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -e  # Exit immediately if a command exits with a non-zero status.
+set -x  # All executed commands are printed to the terminal
+
+aptitude update ; aptitude install -y stunnel4
+
+rm -rf /etc/stunnel/README
+
+cp /tmp/contents/static/client.conf /etc/stunnel/
+cp /tmp/contents/static/server.conf /etc/stunnel/
+
+mkdir -p /etc/stunnel/certificates
+mkdir -p /etc/stunnel/keys
+
+chmod 700 /etc/stunnel/keys
+
+sed -i '$i openssl rehash /etc/stunnel/certificates/' /usr/local/boot
+
+rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /root/.aptitude /root/.wget-hsts

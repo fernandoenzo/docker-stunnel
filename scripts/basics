@@ -1,9 +1,0 @@
-#!/bin/bash
-
-set -e  # Exit immediately if a command exits with a non-zero status.
-set -x  # All executed commands are printed to the terminal
-
-aptitude update ; aptitude install -y stunnel4
-
-rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /root/.aptitude /root/.wget-hsts
-
